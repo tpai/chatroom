@@ -1,12 +1,15 @@
 import React from "react";
 import _ from "lodash";
 
-export const UserList = (props) => (
-	<ul>
+export const UserList = (props) => {
+	let id = 0;
+	return (
+		<ul>
 		{
-			_.map(props.users, user => {
-				return (<li key={new Date().getTime()+Math.round(Math.random()*10)}>{user.name}</li>)
+			_.map(props.users, name => {
+				return (<li key={++id}>{name}</li>)
 			})
 		}
-	</ul>
-);
+		</ul>
+	);
+};
