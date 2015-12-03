@@ -12,11 +12,16 @@ const history = createBrowserHistory();
 syncReduxAndRouter(history, store);
 
 import io from "socket.io-client";
-export const socket = io("http://" + location.hostname + ":5555");
+export const socket = io("http://" + location.hostname + ":" + (process.env.PORT || 5555));
 import { getUserList } from "./src/actions/user";
+import { getChannelList } from "./src/actions/channel";
 
 socket.on("get user list", function(list) {
 	store.dispatch(getUserList(list));
+});
+
+socket.on("get channel list", function(list) {
+	store.dispatch(getChannelList(list));
 });
 
 render(

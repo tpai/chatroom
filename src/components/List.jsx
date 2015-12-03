@@ -13,3 +13,15 @@ export const UserList = (props) => {
 		</ul>
 	);
 };
+
+export const ChannelList = (props) => {
+	return (
+		<select>
+		{
+			_.map(props.channels, channel => {
+				return (<option key={channel.id}>{channel.name}</option>)
+			})
+		}
+		</select>
+	);
+};

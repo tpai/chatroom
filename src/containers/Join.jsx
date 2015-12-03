@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 
-import { UserList } from "../components/list";
+import { UserList, ChannelList } from "../components/List";
 import { userJoin } from "../actions/user";
 import { socket } from "../../index";
 
@@ -11,6 +11,7 @@ export class Join extends Component {
 	}
 	componentDidMount() {
 		socket.emit("get user list");
+		socket.emit("get channel list");
 	}
 	onJoinClick() {
 		const { dispatch } = this.props;
@@ -21,6 +22,8 @@ export class Join extends Component {
 	render() {
 		return (
 			<div>
+				<ChannelList withRef="channel" channels={this.props.channelList} />
+				{' '}
 				<input type="text" ref="username" placeholder="Username" />
 				{' '}
 				<button onClick={this.onJoinClick.bind(this)}>Join</button>
@@ -33,7 +36,8 @@ export class Join extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		userList: state.userList
+		userList: state.userList,
+		channelList: state.channelList
 	}
 }
 
