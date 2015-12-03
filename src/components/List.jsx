@@ -1,6 +1,10 @@
 import React from "react";
 import _ from "lodash";
 
+export const UserListCount = (props) => (
+	<span>Online User: {props.users.length}</span>
+);
+
 export const UserList = (props) => {
 	let id = 0;
 	return (
