@@ -15,24 +15,43 @@ server.listen(port);
 var users = [];
 
 io.on("connection", function(socket) {
-   console.log("New socket connection!");
-   
-   socket.on("new user", function(user) {
-       users.push(user.name);
-       console.log(users);
-       io.emit("get user list", users);
-   });
-   
-   socket.on("get user list", function() {
-       socket.emit("get user list", users);
-   });
-   
-   socket.on("get channel list", function() {
-       mongodb.connect(url, function(err, db) {
-           db.collection("channels").find({}).toArray(function(err, result) {
-               socket.emit("get channel list", result);
-               db.close();
-           });  
-       });
-   });
+    console.log("New socket connection!");
+
+    users.push({ id: socket.id, name: "" });
+
+    getUserList(socket);
+    getChannelList(socket);
+
+    socket.on("disconnect", function() {
+        var index = users.indexOf(users.filter(function(user){return user.id === socket.id;}).shift());
+        users.splice(index, 1);
+        io.emit("get user list", users);
+    });
+
+    socket.on("new user", function(username) {
+        var index = users.indexOf(users.filter(function(user){return user.id === socket.id;}).shift());
+        users[index].name = username;
+        io.emit("get user list", users);
+    });
+
+    socket.on("get user list", function() {
+        socket.emit("get user list", users);
+    });
+
+    socket.on("get channel list", function() {
+        getChannelList();
+    });
 });
+
+var getUserList = function(socket) {
+    io.emit("get user list", users);
+};
+
+var getChannelList = function(socket) {
+    mongodb.connect(url, function(err, db) {
+        db.collection("channels").find({}).toArray(function(err, result) {
+            socket.emit("get channel list", result);
+            db.close();
+        });
+    });
+};

@@ -12,10 +12,6 @@ export class Join extends Component {
 	constructor(props) {
 		super(props);
 	}
-	componentDidMount() {
-		socket.emit("get user list");
-		socket.emit("get channel list");
-	}
 	onJoinClick() {
 		const { dispatch } = this.props;
 		let usernameInput = this.refs.username;
