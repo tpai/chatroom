@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import _ from "lodash";
 
 export const UserListCount = (props) => (
@@ -18,14 +18,16 @@ export const UserList = (props) => {
 	);
 };
 
-export const ChannelList = (props) => {
-	return (
-		<select>
-		{
-			_.map(props.channels, channel => {
-				return (<option key={channel.id}>{channel.name}</option>)
-			})
-		}
-		</select>
-	);
-};
+export class ChannelList extends Component {
+    render() {
+        return (
+            <select>
+            {
+                _.map(this.props.channels, channel => {
+                    return (<option key={channel.id}>{channel.name}</option>)
+                })
+            }
+            </select>
+        );
+    }
+}

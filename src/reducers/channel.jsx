@@ -8,3 +8,14 @@ export const channelList = (state = [], action) => {
 			return state;
 	}
 };
+
+import { SET_CURRENT_CHANNEL } from "../actions/channel";
+
+export const currentChannel = (state = "", action) => {
+    switch(action.type) {
+        case SET_CURRENT_CHANNEL:
+            return action.channel;
+        default:
+            return state;
+    }
+};

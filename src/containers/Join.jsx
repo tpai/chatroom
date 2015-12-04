@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from "react";
+import ReactDOM from "react-dom";
 import { connect } from "react-redux";
+import { updatePath } from "redux-simple-router";
 
 import { UserListCount, ChannelList } from "../components/List";
 import { userJoin } from "../actions/user";
+import { setCurrentChannel } from "../actions/channel";
 import { socket } from "../../index";
 
 export class Join extends Component {
@@ -16,13 +19,15 @@ export class Join extends Component {
 	onJoinClick() {
 		const { dispatch } = this.props;
 		let usernameInput = this.refs.username;
-		dispatch(userJoin(usernameInput.value));
-		usernameInput.value = "";
+        dispatch(userJoin(usernameInput.value));
+        let selectChannel = ReactDOM.findDOMNode(this.refs.channel).value;
+        dispatch(setCurrentChannel(selectChannel));
+        dispatch(updatePath(`/channel/${selectChannel}`));
 	}
 	render() {
 		return (
 			<div>
-				<ChannelList withRef="channel" channels={this.props.channelList} />
+                <ChannelList ref="channel" channels={this.props.channelList} />
 				{' '}
 				<input type="text" ref="username" placeholder="Username" />
 				{' '}
