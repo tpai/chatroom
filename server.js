@@ -13,11 +13,17 @@ process.env.PORT && app.use(express.static(__dirname));
 server.listen(port);
 
 var users = [];
+var username = require("./username");
 
 io.on("connection", function(socket) {
     console.log("New socket connection!");
 
-    users.push({ id: socket.id, name: "" });
+    var name = username[Math.ceil(Math.random()*username.length-1)];
+    
+    var user = { id: socket.id, name: name };
+    users.push(user);
+    
+    socket.emit("set user data", user);
 
     getUserList(socket);
     getChannelList(socket);
@@ -25,12 +31,6 @@ io.on("connection", function(socket) {
     socket.on("disconnect", function() {
         var index = users.indexOf(users.filter(function(user){return user.id === socket.id;}).shift());
         users.splice(index, 1);
-        io.emit("get user list", users);
-    });
-
-    socket.on("new user", function(username) {
-        var index = users.indexOf(users.filter(function(user){return user.id === socket.id;}).shift());
-        users[index].name = username;
         io.emit("get user list", users);
     });
 

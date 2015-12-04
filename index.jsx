@@ -13,8 +13,12 @@ syncReduxAndRouter(history, store);
 
 import io from "socket.io-client";
 export const socket = io("http://" + location.hostname + ":" + (process.env.PORT || 5555));
-import { getUserList } from "./src/actions/user";
+import { setUserData, getUserList } from "./src/actions/user";
 import { getChannelList } from "./src/actions/channel";
+
+socket.on("set user data", function(data) {
+    store.dispatch(setUserData(data));
+});
 
 socket.on("get user list", function(list) {
 	store.dispatch(getUserList(list));

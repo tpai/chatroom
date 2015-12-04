@@ -1,11 +1,10 @@
 import { socket } from "../../index"; 
 
-export const USER_JOIN = "USER_JOIN";
-export const userJoin = (name) => {
-	socket.emit("new user", { name: name });
+export const SET_USER_DATA = "SET_USER_DATA";
+export const setUserData = (userData) => {
 	return {
-		type: USER_JOIN,
-		currentUser: name
+		type: SET_USER_DATA,
+		userData: userData
 	};
 };
 

@@ -1,9 +1,9 @@
-import { USER_JOIN, GET_USER_LIST } from "../actions/user";
+import { SET_USER_DATA, GET_USER_LIST } from "../actions/user";
 
-export const currentUser = (state = "", action) => {
+export const userData = (state = {}, action) => {
     switch(action.type) {
-        case USER_JOIN:
-            return action.currentUser;
+        case SET_USER_DATA:
+            return action.userData;
         default:
             return state;
     }

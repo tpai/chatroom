@@ -14,8 +14,6 @@ export class Join extends Component {
 	}
 	onJoinClick() {
 		const { dispatch } = this.props;
-		let usernameInput = this.refs.username;
-        dispatch(userJoin(usernameInput.value));
         let selectChannel = ReactDOM.findDOMNode(this.refs.channel).value;
         dispatch(setCurrentChannel(selectChannel));
         dispatch(updatePath(`/channel/${selectChannel}`));
@@ -24,8 +22,6 @@ export class Join extends Component {
 		return (
 			<div>
                 <ChannelList ref="channel" channels={this.props.channelList} />
-				{' '}
-				<input type="text" ref="username" placeholder="Username" />
 				{' '}
 				<button onClick={this.onJoinClick.bind(this)}>Join</button>
 				{' '}

@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 
 export class Chanel extends Component {
     render() {
-        const { currentChannel } = this.props;
+        const { currentUser, currentChannel } = this.props;
 		return (
 			<div>
-				<h1>{currentChannel}</h1>
+				<h1>{currentUser}@{currentChannel}&gt;</h1>
 			</div>
 		)
 	}
@@ -14,6 +14,7 @@ export class Chanel extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        currentUser: state.userData.name,
         currentChannel: state.currentChannel
     }
 }
