@@ -1,22 +1,54 @@
 import React, { Component, PropTypes } from "react";
+import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
-export class Chanel extends Component {
-    render() {
-        const { currentUser, currentChannel } = this.props;
-		return (
-			<div>
-				<h1>{currentUser}@{currentChannel}&gt;</h1>
-			</div>
-		)
-	}
-}
+import UserInput from "../components/UserInput";
+import { MessageList } from "../components/List";
+import { sendMessage } from "../actions/msg";
 
-const mapStateToProps = (state) => {
-    return {
-        currentUser: state.userData.name,
-        currentChannel: state.currentChannel
+export class Channel extends Component {
+    onMessageSend(e) {
+        e.preventDefault();
+        const { dispatch, current } = this.props;
+        const msgDOM = ReactDOM.findDOMNode(this.refs.userInput.refs.msg);
+        const msgText = msgDOM.value;
+        const msg = {
+            user: current.user,
+            channelId: current.channel.id,
+            text: msgText
+        };
+        dispatch(sendMessage(msg));
+        msgDOM.value = "";
+    }
+    render() {
+        const { current, messageList } = this.props;
+        return (
+            <div>
+                <UserInput
+                    ref="userInput"
+                    current={current}
+                    onMessageSend={this.onMessageSend.bind(this)}
+                    />
+                <MessageList
+                    messageList={messageList}
+                    />
+            </div>
+        )
     }
 }
 
-export default connect(mapStateToProps)(Chanel);
+Channel.PropTypes = {
+    current: PropTypes.object.required
+}
+
+const mapStateToProps = state => {
+    return {
+        current: {
+            user: state.userData.name,
+            channel: state.currentChannel
+        },
+        messageList: state.messageList
+    }
+}
+
+export default connect(mapStateToProps)(Channel);

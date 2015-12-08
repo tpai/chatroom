@@ -11,10 +11,10 @@ export const channelList = (state = [], action) => {
 
 import { SET_CURRENT_CHANNEL } from "../actions/channel";
 
-export const currentChannel = (state = "", action) => {
+export const currentChannel = (state = {}, action) => {
     switch(action.type) {
         case SET_CURRENT_CHANNEL:
-            return action.channel;
+            return action.currentChannel;
         default:
             return state;
     }

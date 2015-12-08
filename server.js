@@ -19,10 +19,10 @@ io.on("connection", function(socket) {
     console.log("New socket connection!");
 
     var name = username[Math.ceil(Math.random()*username.length-1)];
-    
+
     var user = { id: socket.id, name: name };
     users.push(user);
-    
+
     socket.emit("set user data", user);
 
     getUserList(socket);
@@ -34,12 +34,20 @@ io.on("connection", function(socket) {
         io.emit("get user list", users);
     });
 
+    socket.on("set current channel", function(channelId) {
+        getMessageList(socket, channelId);
+    });
+
     socket.on("get user list", function() {
         socket.emit("get user list", users);
     });
 
     socket.on("get channel list", function() {
-        getChannelList();
+        getChannelList(socket);
+    });
+
+    socket.on("send message", function(msg) {
+        sendMessage(msg);
     });
 });
 
@@ -54,4 +62,32 @@ var getChannelList = function(socket) {
             db.close();
         });
     });
+};
+
+var getMessageList = function(socket, channelId) {
+    mongodb.connect(url, function(err, db) {
+        db.collection("messages").find({
+            "channelId": parseInt(channelId)
+        }).sort({
+            $natural: -1
+        }).limit(50).toArray(function(err, result) {
+            socket.emit("get message list", result);
+            db.close();
+        });
+    });
+};
+
+var sendMessage = function(msg) {
+    mongodb.connect(url, function(err, db) {
+        var WriteResult = db.collection("messages").insert({
+            user: msg.user,
+            channelId: parseInt(msg.channelId),
+            text: msg.text
+        });
+
+        if (WriteResult.nInserted === 0)
+            console.log(WriteResult.writeError.errmsg);
+        else
+            io.emit("update message list");
+    })
 };

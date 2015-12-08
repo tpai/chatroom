@@ -6,7 +6,6 @@ import { updatePath } from "redux-simple-router";
 import { UserListCount, ChannelList } from "../components/List";
 import { userJoin } from "../actions/user";
 import { setCurrentChannel } from "../actions/channel";
-import { socket } from "../../index";
 
 export class Join extends Component {
 	constructor(props) {
@@ -14,9 +13,16 @@ export class Join extends Component {
 	}
 	onJoinClick() {
 		const { dispatch } = this.props;
-        let selectChannel = ReactDOM.findDOMNode(this.refs.channel).value;
-        dispatch(setCurrentChannel(selectChannel));
-        dispatch(updatePath(`/channel/${selectChannel}`));
+        let selectChannel = ReactDOM.findDOMNode(this.refs.channel);
+        let index = selectChannel.selectedIndex;
+        let options = selectChannel.options;
+        let channelId = options[index].value;
+        let channelName = options[index].textContent;
+        dispatch(setCurrentChannel({
+            id: channelId,
+            name: channelName
+        }));
+        dispatch(updatePath(`/channel/${channelId}`));
 	}
 	render() {
 		return (
@@ -31,7 +37,7 @@ export class Join extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		userList: state.userList,
 		channelList: state.channelList
