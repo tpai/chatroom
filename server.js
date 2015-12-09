@@ -11,7 +11,7 @@ var express = require('express'),
     mongodb = require('mongodb').MongoClient,
     _ = require("lodash");
 
-process.env.PORT && app.use(express.static(__dirname));
+app.use(express.static(__dirname));
 server.listen(port);
 
 var users = [];
@@ -38,7 +38,6 @@ io.on("connection", function(socket) {
     socket.on("set current channel", function(channelId) {
         var index = getUserIndex(socket);
         users[index].channelId = channelId;
-        console.log("[Join Channel]", users[index]);
         getMessageList(socket, channelId);
     });
 
