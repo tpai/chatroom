@@ -8,6 +8,7 @@ var express = require('express'),
     port = (process.env.PORT || 5555),
     mongodb = require('mongodb').MongoClient,
     url = require("./config");
+    _ = require("lodash");
 
 process.env.PORT && app.use(express.static(__dirname));
 server.listen(port);
@@ -16,20 +17,19 @@ var users = [];
 var username = require("./username");
 
 io.on("connection", function(socket) {
-    console.log("New socket connection!");
-
     var name = username[Math.ceil(Math.random()*username.length-1)];
 
     var user = { id: socket.id, name: name };
+    console.log("[User Join]", user);
     users.push(user);
-
     socket.emit("set user data", user);
 
     getUserList(socket);
     getChannelList(socket);
 
     socket.on("disconnect", function() {
-        var index = users.indexOf(users.filter(function(user){return user.id === socket.id;}).shift());
+        var index = _.findKey(users, function(user) {return user.id === socket.id;});
+        console.log("[User Left]", users[index]);
         users.splice(index, 1);
         io.emit("get user list", users);
     });
