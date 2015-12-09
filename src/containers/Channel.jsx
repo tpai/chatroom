@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
+import { updatePath } from "redux-simple-router";
 
 import UserInput from "../components/UserInput";
 import { MessageList } from "../components/List";
@@ -19,6 +20,11 @@ export class Channel extends Component {
         };
         dispatch(sendMessage(msg));
         msgDOM.value = "";
+    }
+    componentWillReceiveProps(nextProps) {
+        // it'll reset path if reconnect after disconnect
+        if(nextProps.current.channel.id === -1)
+            this.props.dispatch(updatePath("/"));
     }
     render() {
         const { current, messageList } = this.props;

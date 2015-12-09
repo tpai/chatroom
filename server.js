@@ -19,8 +19,8 @@ var username = require("./username");
 io.on("connection", function(socket) {
     var name = username[Math.ceil(Math.random()*username.length-1)];
 
-    var user = { id: socket.id, name: name };
-    console.log("[User Join]", user);
+    var user = { id: socket.id, name: name, channelId: -1 };
+    console.log("[Connect]", user);
     users.push(user);
     socket.emit("set user data", user);
 
@@ -28,13 +28,16 @@ io.on("connection", function(socket) {
     getChannelList(socket);
 
     socket.on("disconnect", function() {
-        var index = _.findKey(users, function(user) {return user.id === socket.id;});
-        console.log("[User Left]", users[index]);
+        var index = getUserIndex(socket);
+        console.log("[Disconnect]", users[index]);
         users.splice(index, 1);
         io.emit("get user list", users);
     });
 
     socket.on("set current channel", function(channelId) {
+        var index = getUserIndex(socket);
+        users[index].channelId = channelId;
+        console.log("[Join Channel]", users[index]);
         getMessageList(socket, channelId);
     });
 
@@ -50,6 +53,10 @@ io.on("connection", function(socket) {
         sendMessage(msg);
     });
 });
+
+var getUserIndex = function(socket) {
+   return  _.findKey(users, function(user) {return user.id === socket.id;});
+};
 
 var getUserList = function(socket) {
     io.emit("get user list", users);
