@@ -16,6 +16,7 @@
     "babel-core": "^5.8.34",
     "babel-loader": "^5.4.0",
     "css-loader": "^0.21.0",
+    "dotenv": "^1.2.0",
     "es6-promise": "^3.0.2",
     "express": "^4.13.3",
     "history": "^1.13.1",

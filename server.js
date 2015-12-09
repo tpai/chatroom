@@ -1,13 +1,14 @@
 /* global process */
 /* global __dirname */
+require("dotenv").load();
+
 var express = require('express'),
     app = express(),
     http = require('http'),
     server = http.createServer(app),
     io = require('socket.io').listen(server, { log: false }),
-    port = (process.env.PORT || 5555),
+    port = (process.env.PORT || 8051),
     mongodb = require('mongodb').MongoClient,
-    url = require("./config");
     _ = require("lodash");
 
 process.env.PORT && app.use(express.static(__dirname));
@@ -63,7 +64,7 @@ var getUserList = function(socket) {
 };
 
 var getChannelList = function(socket) {
-    mongodb.connect(url, function(err, db) {
+    mongodb.connect(process.env.MONGO_URL, function(err, db) {
         db.collection("channels").find({}).toArray(function(err, result) {
             socket.emit("get channel list", result);
             db.close();
@@ -72,7 +73,7 @@ var getChannelList = function(socket) {
 };
 
 var getMessageList = function(socket, channelId) {
-    mongodb.connect(url, function(err, db) {
+    mongodb.connect(process.env.MONGO_URL, function(err, db) {
         db.collection("messages").find({
             "channelId": parseInt(channelId)
         }).sort({
@@ -85,7 +86,7 @@ var getMessageList = function(socket, channelId) {
 };
 
 var sendMessage = function(msg) {
-    mongodb.connect(url, function(err, db) {
+    mongodb.connect(process.env.MONGO_URL, function(err, db) {
         var WriteResult = db.collection("messages").insert({
             user: msg.user,
             channelId: parseInt(msg.channelId),
