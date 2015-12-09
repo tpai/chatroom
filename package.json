@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --host localhost --port 5000 --colors --hot --inline --config webpack.config.dev.js",
     "build": "webpack --colors --optimize-minimize --config webpack.config.dist.js",
+    "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel-core/register --recursive 'test/**/*.test.jsx' --require test/setup.jsx",
     "server": "nodemon server.js"
   },
   "author": "",
@@ -40,10 +41,13 @@
   },
   "devDependencies": {
     "babel-plugin-react-transform": "^1.1.1",
+    "babel-plugin-rewire": "^0.1.22",
+    "deep-freeze": "0.0.1",
     "expect": "^1.13.0",
-    "jsdom": "^7.0.2",
+    "expect-jsx": "^2.2.0",
+    "jsdom": "^7.2.0",
     "mocha": "^2.3.4",
-    "nock": "^3.1.1",
+    "nock": "^3.4.0",
     "nodemon": "^1.8.1",
     "react-addons-test-utils": "^0.14.3",
     "react-transform-catch-errors": "^1.0.0",

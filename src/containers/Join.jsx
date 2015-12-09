@@ -5,7 +5,7 @@ import { updatePath } from "redux-simple-router";
 
 import { UserListCount, ChannelList } from "../components/List";
 import { userJoin } from "../actions/user";
-import { setCurrentChannel } from "../actions/channel";
+import { setCurrentChannel } from "../actions/socket";
 
 export class Join extends Component {
 	constructor(props) {

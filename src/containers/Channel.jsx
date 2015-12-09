@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import UserInput from "../components/UserInput";
 import { MessageList } from "../components/List";
-import { sendMessage } from "../actions/msg";
+import { sendMessage } from "../actions/socket";
 
 export class Channel extends Component {
     onMessageSend(e) {
