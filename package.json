@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --host localhost --port 5000 --colors --hot --inline --config webpack.config.dev.js",
+    "start": "npm run mongodb & npm run server",
+    "start:dev": "webpack-dev-server --host localhost --port 5000 --colors --hot --inline --config webpack.config.dev.js",
     "build": "webpack --colors --optimize-minimize --config webpack.config.dist.js",
     "test": "NODE_ENV=test NODE_PATH=. mocha --compilers js:babel-core/register --recursive 'test/**/*.test.jsx' --require test/setup.jsx",
+    "mongodb": "mongod --dbpath ~/data/db",
     "server": "nodemon server.js"
   },
   "author": "",
