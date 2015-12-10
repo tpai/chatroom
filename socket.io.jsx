@@ -2,9 +2,8 @@ import io from "socket.io-client";
 export const socket = io("http://" + location.hostname + ":8051");
 import { store } from "./index";
 import { setUserData, getUserList } from "./src/actions/user";
-import { getChannelList } from "./src/actions/channel";
+import { getChannelList, setCurrentChannel } from "./src/actions/channel";
 import { getMessageList } from "./src/actions/msg";
-import { setCurrentChannel } from "./src/actions/socket";
 
 socket.on("set user data", function(data) {
     store.dispatch(setUserData(data));

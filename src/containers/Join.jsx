@@ -1,18 +1,17 @@
 import React, { Component, PropTypes } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
-import { updatePath } from "redux-simple-router";
 
 import { UserListCount, ChannelList } from "../components/List";
 import { userJoin } from "../actions/user";
-import { setCurrentChannel } from "../actions/socket";
+import { setCurrentChannel } from "../actions/channel";
 
 export class Join extends Component {
 	constructor(props) {
 		super(props);
 	}
 	onJoinClick() {
-		const { dispatch } = this.props;
+		const { history, dispatch } = this.props;
         let selectChannel = ReactDOM.findDOMNode(this.refs.channel);
         let index = selectChannel.selectedIndex;
         let options = selectChannel.options;
@@ -22,7 +21,7 @@ export class Join extends Component {
             id: channelId,
             name: channelName
         }));
-        dispatch(updatePath(`/channel/${channelId}`));
+        history.replaceState(null, `/channel/${channelId}`);
 	}
 	render() {
 		return (

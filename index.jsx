@@ -1,19 +1,15 @@
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { syncReduxAndRouter } from "redux-simple-router";
-import createBrowserHistory from "history/lib/createBrowserHistory";
 import AppRouter from "./AppRouter";
 import Store from "./src/store/Store";
+import "./socket.io";
 
 export const store = Store ();
-const history = createBrowserHistory();
-
-syncReduxAndRouter(history, store);
 
 render(
 	<Provider store={store}>
-		<AppRouter history={history} />
+		<AppRouter />
 	</Provider>,
 	document.getElementById("react")
 );
