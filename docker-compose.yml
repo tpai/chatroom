@@ -1,0 +1,12 @@
+node:
+  image: chatroom
+  ports:
+  - 8051:8051
+  links:
+  - mongo
+  environment:
+    PORT: 8051
+    MONGO_URL: mongodb://user:pass@mongo:27017/chatroom
+
+mongo:
+  image: mongo:3
