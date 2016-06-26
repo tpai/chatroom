@@ -7,11 +7,16 @@ var express = require('express'),
     http = require('http'),
     server = http.createServer(app),
     io = require('socket.io').listen(server, { log: false }),
-    port = (process.env.PORT || 8051),
+    port = (process.env.SERVER_PORT || 8080),
     mongodb = require('mongodb').MongoClient,
-    _ = require("lodash");
+    _ = require("lodash")
+    path = require('path');
 
-app.use(express.static(__dirname));
+var root = path.resolve(__dirname, './www');
+app.use(express.static(root));
+app.get('*', function (req, res) {
+  res.sendFile(path.join(root, 'index.html'))
+})
 server.listen(port);
 
 var users = [];
