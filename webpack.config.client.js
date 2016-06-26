@@ -3,15 +3,6 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-    devTool: "source-map",
-    devServer: {
-        host: "localhost",
-        port: "8080",
-        contentBase: "www/",
-        colors: true,
-        inline: true,
-        hot: true
-    },
     entry: {
         'www/bundle': ['./src/index']
     },
