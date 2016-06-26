@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from "react";
-import ReactDOM from "react-dom";
-import { connect } from "react-redux";
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-import UserInput from "../components/UserInput";
-import { MessageList } from "../components/List";
-import { sendMessage } from "../actions/msg";
+import socket from 'client.socket';
+import UserInput from 'components/UserInput';
+import { MessageList } from 'components/List';
 
 export class Channel extends Component {
     onMessageSend(e) {
@@ -17,8 +18,8 @@ export class Channel extends Component {
             channelId: current.channel.id,
             text: msgText
         };
-        dispatch(sendMessage(msg));
-        msgDOM.value = "";
+        socket.emit('send message', msg);
+        msgDOM.value = '';
     }
     componentWillReceiveProps(nextProps) {
         const { history } = this.props;
@@ -30,6 +31,8 @@ export class Channel extends Component {
         const { current, messageList } = this.props;
         return (
             <div>
+                <button onClick={this.onBackClick}>Back To Lobby</button>
+                <hr />
                 <UserInput
                     ref="userInput"
                     current={current}
@@ -40,6 +43,11 @@ export class Channel extends Component {
                     />
             </div>
         )
+    }
+    onBackClick = e => {
+        e.preventDefault();
+        const { router } = this.props;
+        router.push({ pathname: '/' });
     }
 }
 
@@ -57,4 +65,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Channel);
+export default connect(mapStateToProps)(withRouter(Channel));

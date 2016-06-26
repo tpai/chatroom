@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import _ from 'lodash';
 
 export default class UserInput extends Component {
     render() {
@@ -8,11 +9,11 @@ export default class UserInput extends Component {
         } = this.props;
         return (
             <form onSubmit={onMessageSend}>
-                <span>{current.user}在{current.channel.name}</span>
-                {' '}
+                <div>{current.user} is in {_.lowerCase(current.channel.name)} channel.</div>
+                <br />
                 <input type="text" ref="msg" />
                 {' '}
-                <button>Send</button>
+                <button>Say</button>
             </form>
         )
     }
