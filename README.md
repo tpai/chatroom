@@ -1,5 +1,5 @@
 # Chatroom
-> This chatroom is based on r2(react+redux), socket.io and mongolab.
+> This chatroom is based on react.js, redux, socket.io and mongodb.
 
 ### Get Started
 
@@ -16,32 +16,24 @@ $ mongo
 $ use chatroom
 $ db.createCollection("channels")
 $ db.createCollection("messages")
-$ db.createUser({"user": "user", "pwd": "pass", "roles": ["readWrite"]})
+$ db.createUser({"user": "root", "pwd": "admin", "roles": ["readWrite"]})
 $ db.channels.insert({"id": 1, "name": "General"})
 ```
 
-3) Rename .env.sample to .env and modify settings.
+3) Copy .env.sample and rename to .env
 
 ```
-PORT="YOUR_PORT_NUMBER"
-MONGO_URL="mongodb://USER:PASS@DOMAIN:PORT/DBNAME"
+PORT="8080"
+MONGO_URL="mongodb://root:admin@localhost:27017/chatroom"
 ```
 
-4) Start mongodb and server
+4) Start development server
 
 ```
 npm start
 ```
 
-### Start Develop
-
-```
-npm run start:dev
-```
-
-This will start a development server with react-transform-hmr.
-
-### Build Client Bundle JS
+5) Build all and run
 
 ```
 npm run build
