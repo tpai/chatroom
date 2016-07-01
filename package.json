@@ -10,7 +10,7 @@
     "watch-server": "cross-env NODE_ENV=development webpack -w --config webpack.config.server.js",
     "build": "npm run build-client && npm run build-server",
     "build-client": "cross-env NODE_ENV=production webpack --colors --optimize-minimize --config webpack.config.client.js",
-    "build-server": "cross-env NODE_ENV=production webpack --colors --optimize-minimize --config webpack.config.server.js",
+    "build-server": "cross-env NODE_ENV=production webpack --colors --config webpack.config.server.js",
     "test": "cross-env NODE_ENV=test NODE_PATH=. mocha --compilers js:babel-core/register --recursive 'test/**/*.test.jsx' --require test/setup.jsx"
   },
   "author": "",
