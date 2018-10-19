@@ -66,11 +66,11 @@ class Channel extends PureComponent {
                 style={{ position: 'absolute' }}
                 onDrop={this.onDrop}
               >
-                {({ isDragAccept }) => {
+                {({ isDragActive }) => {
                   return (
                     <div
                       className={cx(styles['drop-file'], {
-                        [styles['active-drop']]: isDragAccept,
+                        [styles['active-drop']]: isDragActive,
                       })}
                     >
                       Drop File To Upload

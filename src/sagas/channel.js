@@ -43,11 +43,8 @@ export const sagas = {
         yield call(node.addEventListener, 'dragenter', () => {
           target.classList.add('showDropzone');
         });
-        yield call(node.addEventListener, 'drop', () => {
-          target.classList.remove('showDropzone');
-        });
         yield call(node.addEventListener, 'dragleave', (e) => {
-          if (!node.contains(e.target)) {
+          if (!node.contains(e.target) || target.contains(e.target)) {
             target.classList.remove('showDropzone');
           }
         });
