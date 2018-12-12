@@ -24,6 +24,8 @@ module.exports = Object.assign({}, config, {
       filename: 'static/css/[name].[hash].css',
       chunkFilename: 'static/css/[name].[hash].css',
     }),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+    }),
   ],
 });
