@@ -16,7 +16,7 @@ socket.on('getMessages', (data) => {
   store.dispatch(setMessages(data));
 });
 
-socket.on('Error', (err) => {
+socket.on('error', (err) => {
   console.log(err);
 });
 
