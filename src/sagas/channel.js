@@ -27,14 +27,15 @@ export const sagas = {
       if (success) {
         const { body: users } = success;
         const { id, name: username } = users[Math.floor(Math.random()*10)];
-        const { channelId } = queryString.parse(location.search);
+        const { channel } = queryString.parse(location.search);
+        const channelId = channel || 1;
         yield call(joinChannel, {
-          id: channelId || 1,
+          id: channelId,
           username,
         });
         yield call(window.addEventListener, 'beforeunload', () => {
           return leaveChannel({
-            id: channelId || 1,
+            id: channelId,
             username,
           });
         });
