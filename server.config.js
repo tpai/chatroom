@@ -1,6 +1,5 @@
-const apiServerIP = 'localhost';
-const apiServerPort = '3333';
+require('dotenv').config();
 
 module.exports = {
-  apiServerAddress: `http://${apiServerIP}:${apiServerPort}`,
+  apiServerAddress: process.env.API_SERVER || 'http://localhost:3333',
 };
