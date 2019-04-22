@@ -52,7 +52,7 @@
 .content {
   height: calc(100% - 140px);
   border-top: 1px solid #ccc;
-  overflow-y: scroll;
+  overflow: auto;
   flex: 1;
 }
 
